@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TestMailController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get("test-mail-send",[TestMailController::class,"sendMail"]);
+Route::post("test-mail-send",[TestMailController::class,"sendNow"])->name("send-now");
