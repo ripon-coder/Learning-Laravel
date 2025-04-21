@@ -1,17 +1,21 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', function () {
-    //$my_array = [100, 2, 3, 4, "", "Ripon"];
-    $my_array = ["karim", "rahim", 3, 4, "", "Ripon"];
-    $gm = ["ripon@hotmail.com", "karim@gmail.com"];
 
-    $new_array = array_map(
-        fn($value) => $value . " - verified",
-        array_filter($gm, fn($value) => str_ends_with($value, "@gmail.com"))
-    );
+    $new_array = User::select('name', 'email')->get()
+        ->filter(fn($user) => str_ends_with($user->email, "@gmail.com"))
+        ->map(fn($user) =>
+        [
+            "name" => $user->name,
+            "email" => $user->email . " - verified"
+        ])
+        ->values()
+        ->toArray();
+
     return $new_array;
 
 
