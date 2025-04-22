@@ -6,20 +6,30 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
-    $string =  strstr("ripon@hotmail.com","@");
-    $st_length = strlen("@gmail.");
-    return substr($string,-3,3);
-    $new_array = User::select('name', 'email')->get()
-        ->filter(fn($user) => str_ends_with($user->email, "@gmail.com"))
-        ->map(fn($user) =>
-        [
-            "name" => $user->name,
-            "email" => $user->email . " - verified"
-        ])
-        ->values()
-        ->toArray();
+    $full_url = parse_url("https://coderripon.gitbook.io/laravel1/helper/php-helper-function");
+    $path = trim($full_url['path']);
+    $pathToArray = explode('/', $path);
+    $final = array_filter($pathToArray, function ($item) {
+        return $item != "";
+    });
+    return array_values($final)[0];
+    //$path = $pathToArray[1];
+    //return $path;
 
-    return $new_array;
+    // $string =  strstr("ripon@hotmail.com","@");
+    // $st_length = strlen("@gmail.");
+    // return substr($string,-3,3);
+    // $new_array = User::select('name', 'email')->get()
+    //     ->filter(fn($user) => str_ends_with($user->email, "@gmail.com"))
+    //     ->map(fn($user) =>
+    //     [
+    //         "name" => $user->name,
+    //         "email" => $user->email . " - verified"
+    //     ])
+    //     ->values()
+    //     ->toArray();
+
+    //return $new_array;
 
 
     // $numbers = [1, 2, 3, 4, 5, 6];
