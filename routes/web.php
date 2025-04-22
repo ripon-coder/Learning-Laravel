@@ -6,6 +6,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
 
+    $string =  strstr("ripon@hotmail.com","@");
+    $st_length = strlen("@gmail.");
+    return substr($string,-3,3);
     $new_array = User::select('name', 'email')->get()
         ->filter(fn($user) => str_ends_with($user->email, "@gmail.com"))
         ->map(fn($user) =>
