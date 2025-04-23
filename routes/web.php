@@ -1,44 +1,8 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', function () {
-
-    $full_url = parse_url("https://coderripon.gitbook.io/laravel1/helper/php-helper-function");
-    $path = trim($full_url['path']);
-    $pathToArray = explode('/', $path);
-    $final = array_filter($pathToArray, function ($item) {
-        return $item != "";
-    });
-    return array_values($final)[0];
-    //$path = $pathToArray[1];
-    //return $path;
-
-    // $string =  strstr("ripon@hotmail.com","@");
-    // $st_length = strlen("@gmail.");
-    // return substr($string,-3,3);
-    // $new_array = User::select('name', 'email')->get()
-    //     ->filter(fn($user) => str_ends_with($user->email, "@gmail.com"))
-    //     ->map(fn($user) =>
-    //     [
-    //         "name" => $user->name,
-    //         "email" => $user->email . " - verified"
-    //     ])
-    //     ->values()
-    //     ->toArray();
-
-    //return $new_array;
-
-
-    // $numbers = [1, 2, 3, 4, 5, 6];
-
-    // $evenSquares = array_map(function($number) {
-    //     return $number * $number;
-    // }, array_filter($numbers, function($number) {
-    //     return $number % 2 === 0;
-    // }));
-
-    // return $evenSquares;
-});
+Route::get('/', [HomeController::class,'index'])->name('home');
