@@ -3,10 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Casts\Json;
+use Laravel\Sanctum\HasApiTokens;
+use App\Models\Scopes\StatusScope;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
@@ -20,7 +24,9 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'amount',
         'password',
+        'others',
     ];
 
     /**
@@ -41,5 +47,22 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'others' => Json::class,
     ];
+
+    // protected static function booted(){
+    //     static::addGlobalScope(StatusScope::class);
+    // }
+
+    // public function scopeEmailVerified($query)
+    // {
+    //     return $query->whereNotNull('email_verified_at');
+    // }
+
+    protected function name(): Attribute
+    {
+        return Attribute::make(
+            get: fn(string $value) => lcfirst($value),
+        );
+    }
 }

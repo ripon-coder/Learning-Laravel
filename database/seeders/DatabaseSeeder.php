@@ -12,14 +12,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\User::factory(1000)->create()->each(function ($user) {
-            $domain = rand(0, 1) ? "@gmail.com" : "@example.com";
-                    // Split the existing email before the @
-        $username = strstr($user->email, '@', true);
-
-        // Update the email
-        $user->email = $username . $domain;
-        $user->save();
-        });
+        \App\Models\User::factory(10)->create();
     }
 }
