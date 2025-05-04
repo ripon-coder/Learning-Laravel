@@ -14,7 +14,7 @@ class Json implements CastsAttributes
      */
     public function get(Model $model, string $key, mixed $value, array $attributes): mixed
     {
-        return json_decode($value, true);
+        return $value ? $value = json_decode($value, true) : $value = null;
     }
 
     /**
@@ -24,6 +24,6 @@ class Json implements CastsAttributes
      */
     public function set(Model $model, string $key, mixed $value, array $attributes): mixed
     {
-        return json_encode($value);
+        return $value ? json_encode($value) : $value;
     }
 }

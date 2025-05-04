@@ -17,7 +17,7 @@ services:
 
   # MySQL Service
   db:
-    image: mysql:5.7
+    image: mysql:8.0  # ⬅️ Updated version
     container_name: mysql
     restart: unless-stopped
     environment:
@@ -31,6 +31,7 @@ services:
       - learning
     volumes:
       - dbdata:/var/lib/mysql
+
 
   # phpMyAdmin Service
   phpmyadmin:
