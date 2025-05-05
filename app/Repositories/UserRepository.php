@@ -9,18 +9,39 @@ class UserRepository implements UserRepositoriesInterface
     {
         $this->user = $user;
     }
-    public function show($id){
+    public function show($id)
+    {
         return $this->user->findOrFail($id);
     }
-    public function edit($id){
-        return $this->user->findOrFail($id);
-    }
-    public function all(){
+
+    public function all()
+    {
         return $this->user->all();
     }
+    public function pagination($limit=20){
+        return $this->user->paginate($limit);
+    }
     public function create(array $data)
-    {   
-        $user = $this->user->create($data);
+    {
+        return $this->user->create($data);
+    }
+    public function edit($id)
+    {
+        return $this->user->findOrFail($id);
+    }
+
+    public function update($id, array $data)
+    {
+        $user = $this->show($id);
+        if (empty($data['password'])) {
+            unset($data['password']);
+        }
+        return $user->update($data);
+    }
+
+    public function delete($id){
+        $user = $this->show($id);
+        return $user->delete();
     }
 
 }

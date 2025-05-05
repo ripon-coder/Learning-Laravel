@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserEditEvent;
+use App\Events\UserRegistered;
 use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
 use App\Repositories\UserRepositoriesInterface;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -17,7 +19,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return $user = $this->userRepository->all();
+         $users = $this->userRepository->pagination(2);
+         return view("users.index", compact("users"));
         
     }
 
@@ -26,7 +29,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view("welcome");
+        return view("users.create");
     }
 
     /**
@@ -34,7 +37,9 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $this->userRepository->create($request->all());
+        $user = $this->userRepository->create($request->all());
+        event(new UserRegistered($user));
+        return redirect()->route('user.index')->with("success","User Created Successfully!");
     }
 
     /**
@@ -50,15 +55,18 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        return $this->userRepository->edit( $id );
+         $user = $this->userRepository->edit( $id );
+         return view("users.edit",compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, string $id)
     {
-        //
+        $this->userRepository->update($id, $request->all());
+        event(new UserEditEvent($this->show($id)));
+        return redirect()->route('user.index')->with("success","User Updated Successfully!");
     }
 
     /**
@@ -66,6 +74,7 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $this->userRepository->delete( $id );
+        return redirect()->route('user.index')->with("success","User Deleted Successfully!");
     }
 }

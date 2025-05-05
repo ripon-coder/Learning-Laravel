@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\UserEditEvent;
 use App\Events\UserRegistered;
+use App\Listeners\UserEditListener;
 use App\Listeners\UserRegistered as ListenersUserRegistered;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -23,6 +25,9 @@ class EventServiceProvider extends ServiceProvider
         UserRegistered::class => [
             ListenersUserRegistered::class,
         ],
+        UserEditEvent::class =>[
+            UserEditListener::class
+        ]
 
     ];
 

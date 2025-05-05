@@ -2,12 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Events\UserRegistered as EventsUserRegistered;
-use App\Mail\WelcomeMail;
+use App\Events\UserEditEvent;
+use App\Mail\UserEditMail;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
 
-class UserRegistered implements ShouldQueue
+class UserEditListener implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -20,8 +21,8 @@ class UserRegistered implements ShouldQueue
     /**
      * Handle the event.
      */
-    public function handle(EventsUserRegistered $event): void
+    public function handle(UserEditEvent $event): void
     {
-        Mail::to($event->user->email)->send(new WelcomeMail($event->user));
+        Mail::to($event->user->email)->send(new UserEditMail($event->user));
     }
 }
